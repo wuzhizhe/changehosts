@@ -1,8 +1,7 @@
-# changehosts
   
-  NODEJS写的小工具用来更新hosts文件
+  NodeJs写的小工具用来更新hosts文件
 
-  需要NODE NPM
+  需要Node npm
 
   配置config.json文件，配置项说明：
 
