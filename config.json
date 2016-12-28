@@ -1,0 +1,8 @@
+{
+	"proxy": "http://127.0.0.1:5656",
+	"sourceList": [
+		"https://github.com/sy618/hosts/raw/master/ADFQ",
+		"https://coding.net/u/scaffrey/p/hosts/git/raw/master/hosts"
+	],
+	"hostsPath": "C:\\Windows\\System32\\drivers\\etc\\hosts"
+}

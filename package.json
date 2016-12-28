@@ -1,0 +1,19 @@
+{
+  "name": "changehosts",
+  "version": "1.0.0",
+  "description": "a small tool to change hosts from some url",
+  "main": "index.js",
+  "dependencies": {
+    "async": "^2.1.4",
+    "request": "^2.79.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "node index.js"
+  },
+  "keywords": [
+    "hosts"
+  ],
+  "author": "wuzhizhemu569@gmail.com",
+  "license": "ISC"
+}
