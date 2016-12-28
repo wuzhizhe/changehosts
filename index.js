@@ -1,13 +1,13 @@
 const fs = require('fs'),
-	request = require('request'),
+    request = require('request'),
     async = require('async'),
-	config = './config.json';
+    config = './config.json';
 
 
 let r = null,
-	conf = JSON.parse(fs.readFileSync(config, {encoding: 'utf8', flag: 'r'})),
-	hosts = '',
-	hostpath = conf.hostsPath,
+    conf = JSON.parse(fs.readFileSync(config, {encoding: 'utf8', flag: 'r'})),
+    hosts = '',
+    hostpath = conf.hostsPath,
     backupfileName = null,
     oldHosts = null,
 	urls = conf.sourceList;
@@ -23,7 +23,7 @@ getAllHosts(urls);
  * 备份现在的hosts到本目录
  */
 function backupOldHosts() {
-	console.log('正在备份原hosts文件...');
+    console.log('正在备份原hosts文件...');
     oldHosts = fs.readFileSync(hostpath, {encoding: 'utf8'});
     backupfileName = 'hosts' + new Date().getTime();
     fs.writeFileSync(backupfileName, oldHosts);
@@ -40,7 +40,6 @@ function getAllHosts(urls) {
         getHosts(item, cb);
     }, (err, result) => {
         console.log('hosts文件更新成功！');
-        
     });
 }
 
