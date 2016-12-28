@@ -13,4 +13,4 @@
 
   npm install之后执行node index.js即可（windows下需要管理员权限）
 
-  在windows 10下测试成功，其他平台没有条件未做测试。
+  在windows 10以及centos6下测试成功，其他平台没有条件未做测试。
