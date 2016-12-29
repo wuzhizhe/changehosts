@@ -18,9 +18,13 @@
   =======
 
   添加java版本，在java version目录下，使用changehosts.properties配置文件，具体配置项说明：
+
   hostsPath: hosts文件绝对路径
+
   sourceList: hosts网络源，多个源使用**";"**进行分隔
+
   proxyHost: 代理host
+  
   proxyPort: 代理端口（代理只支持HTTP类型）
 
   需要Java
