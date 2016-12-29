@@ -2,6 +2,7 @@ import java.net.URL;
 import java.net.HttpURLConnection;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.BufferedReader;
 import java.io.BufferedInputStream;
@@ -9,24 +10,47 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.BufferedReader;
 import java.util.Properties;
 
 public class ChangeHosts {
-
-	private final static String USER_AGENT = "Mozilla/5.0";
 
 	public static void main(String[] args) throws Exception {
 		getAllUrls();
 	}
 
+	private static void backupHosts(String filepath) throws Exception {
+		try {
+			System.out.println("backup old hosts");
+			InputStream in = new FileInputStream(filepath);
+			BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			StringBuffer sb = new StringBuffer();
+			String line = br.readLine();
+			while (line != null) {
+				sb.append(line).append("\n");
+				line = br.readLine();
+			}
+			String content = sb.toString();
+			String oldFilepath = System.getProperty("user.dir") + "\\hosts" + System.currentTimeMillis();
+			File file = new File(oldFilepath);
+			file.createNewFile();
+			PrintWriter out = new PrintWriter(oldFilepath);
+			out.println(content);
+			out.close();
+			System.out.println("old hosts back up at " + oldFilepath);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
 	/**
-	 * 去读本地配置文件，并循环获取需要的hosts最终设置到本地hosts中
+	 * get all hosts from url and write cotent in file
 	 * @throws Exception
 	 */
 	private static void getAllUrls() throws Exception {
 		String filepath = System.getProperty("user.dir") + "\\changehosts.properties";
 		InputStream inn = new BufferedInputStream(new FileInputStream(filepath));
-		//读取properties文件内容
+		//get propertis in file
 		Properties p = new Properties();
 		p.load(inn);
 		String hostsPath = p.getProperty("hostsPath");
@@ -34,22 +58,24 @@ public class ChangeHosts {
 		int proxyPort = Integer.parseInt(p.getProperty("proxyPort"));
 		String hostsUrl = p.getProperty("sourceList");
 		String[] urls = hostsUrl.split(";");
+		backupHosts(hostsPath);
 		String content = "";
 		for (int i = 0; i < urls.length; i++) {
 			content += getHosts(urls[i], proxyHost, proxyPort);
 		}
 		try {
-			//将content写入hosts文件
+			//write new hosts to hosts file
 			PrintWriter out = new PrintWriter(hostsPath);
 			out.println(content);
 			out.close();
+			System.out.println("hosts file updated!");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * 根据hosts源以及设置的proxy获取内容
+	 * get hosts content from url and use http proxy
 	 * @param hostsUrl
 	 * @param proxyHost
 	 * @param proxyPort
@@ -62,10 +88,8 @@ public class ChangeHosts {
 		Proxy proxy = new Proxy(Proxy.Type.HTTP, addr);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection(proxy);
 		con.setRequestMethod("GET");
-		con.setRequestProperty("User-Agent", USER_AGENT);
 		int responseCode = con.getResponseCode();
-		System.out.println("\nSending 'GET' request to URL : " + url);
-		System.out.println("Response Code : " + responseCode);
+		System.out.println("\nget hosts from " + url);
 		BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
 		String inputLine;
 		StringBuffer response = new StringBuffer();
