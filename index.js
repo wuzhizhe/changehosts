@@ -10,7 +10,7 @@ let r = null,
     hostpath = conf.hostsPath,
     backupfileName = null,
     oldHosts = null,
-	urls = conf.sourceList;
+    urls = conf.sourceList;
 
 r = request.defaults({
 	proxy: conf.proxy
